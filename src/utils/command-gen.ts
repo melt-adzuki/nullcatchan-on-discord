@@ -1,7 +1,7 @@
 import { Message } from 'discord.js'
 
-export default class Command<T extends string | RegExp> {
-	public content: string | RegExp
+export default class Command<T extends string[] | RegExp> {
+	public content: string[] | RegExp
 	public execute: (message: Message, match: T extends RegExp ? RegExpMatchArray : never) => void
 	public match!: RegExpMatchArray
 

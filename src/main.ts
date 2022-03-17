@@ -4,6 +4,8 @@ import commands from './commands'
 
 dotenv.config()
 
+const PREFIX = 'n! '
+
 const client = new Client({
 	intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES'],
 })
@@ -14,11 +16,16 @@ client.once('ready', () => {
 
 client.on('messageCreate', async (message: Message) => {
 	if (message.author.bot) return
+	if (!client.user) return
+	else if (!(message.content.startsWith(PREFIX) || message.mentions.has(client.user.id))) return
 
-	const context = message.content.trim().replaceAll('n!', '')
+	const context = message.content
+		.replaceAll(PREFIX, '')
+		.replaceAll(`<@!${client.user.id}>`, '')
+		.trim()
 
 	const command = commands.find(command => {
-		if (typeof command.content === 'string') return context.startsWith(command.content)
+		if (Array.isArray(command.content)) return command.content.some(content => context === content)
 
 		else if (command.content instanceof RegExp) {
 			const match = command.content.exec(context)
