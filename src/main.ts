@@ -28,7 +28,7 @@ client.on('messageCreate', async (message: Message) => {
 		if (Array.isArray(command.content)) return command.content.some(content => context === content)
 
 		else if (command.content instanceof RegExp) {
-			const match = command.content.exec(context)
+			const match = context.match(command.content)
 			if (!match) return false
 
 			command.match = match
