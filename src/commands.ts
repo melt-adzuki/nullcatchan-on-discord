@@ -21,7 +21,7 @@ const commands: readonly Command<string[] | RegExp>[] = [
 		await message.channel.send('ごめんね...')
 	}),
 
-	new Command(/う[る|っ][せ|さ][い|え|ぇ][!|！]*[死|し]ね[!|！]*/gm, async message => {
+	new Command(/う[るっ][せさ][いえぇ][!！]*[死し]ね[!！]*/gm, async message => {
 		await message.channel.send('お前が死ね！！！')
 	}),
 

@@ -16,7 +16,7 @@ client.once('ready', () => {
 
 client.on('messageCreate', async (message: Message) => {
 	if (message.author.bot) return
-	if (!client.user) return
+	else if (!client.user) return
 	else if (!(message.content.startsWith(PREFIX) || message.mentions.has(client.user.id))) return
 
 	const context = message.content
