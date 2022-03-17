@@ -1,11 +1,12 @@
 import { Message } from 'discord.js'
 
 export default class Command {
-	public withPrefix: string
-	public execute: (message: Message) => void
+	public content: string | RegExp
+	public execute: (message: Message, regExpResult?: RegExpMatchArray) => void
+	public regExp?: RegExpMatchArray
 
-	constructor(command: string, func: (message: Message) => void) {
-		this.withPrefix = 'n!' + command
+	constructor(command: string | RegExp, func: (message: Message, regExpResult?: RegExpMatchArray) => void) {
+		this.content = 'n!' + command
 		this.execute = func
 	}
 }
