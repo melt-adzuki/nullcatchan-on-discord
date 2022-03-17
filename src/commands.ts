@@ -6,7 +6,9 @@ const commands: readonly Command[] = [
 		await message.channel.send('Pong!')
 	}),
 
-	new Command(/(\d*)分タイマー/gm, (message, regExp) => {
+	new Command(/(\d*)分タイマー/gm, async (message, regExp) => {
+		await message.channel.send('OK!')
+
 		const minutes = Number(regExp![0])
 
 		setTimeout(() => {
