@@ -15,19 +15,21 @@ client.once('ready', () => {
 client.on('messageCreate', async (message: Message) => {
 	if (message.author.bot) return
 
+	const context = message.content.trim().replaceAll('n!', '')
+
 	const command = commands.find(command => {
-		if (typeof command.content === 'string') return message.content.startsWith(command.content)
+		if (typeof command.content === 'string') return context.startsWith(command.content)
 
 		else if (command.content instanceof RegExp) {
-			const result = message.content.match(command.content)
-			if (!result) return false
+			const match = command.content.exec(context)
+			if (!match) return false
 
-			command.regExp = result
+			command.match = match
 			return true
 		}
 	})
 
-	command?.execute(message, command.regExp)
+	command?.execute(message, command.match)
 })
 
 client.login(process.env.TOKEN)
