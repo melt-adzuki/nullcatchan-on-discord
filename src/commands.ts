@@ -11,8 +11,8 @@ const commands: readonly Command[] = [
 
 		const minutes = Number(regExp![0])
 
-		setTimeout(() => {
-			message.channel.send('時間が経ったよ！！')
+		setTimeout(async () => {
+			await message.channel.send('時間が経ったよ！！')
 		}, minutes)
 	}),
 
