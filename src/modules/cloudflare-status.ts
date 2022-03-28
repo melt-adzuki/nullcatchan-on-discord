@@ -1,24 +1,24 @@
-import { Client, Message, TextChannel } from 'discord.js'
+import { Client, Message } from 'discord.js'
 import Module from '../utils/module'
 import fetch from 'node-fetch'
 import { z } from 'zod'
 
 export default class CloudflareStatus extends Module {
-    constructor(client: Client) {
-        super(client)
-    }
+	constructor(client: Client) {
+		super(client)
+	}
 
-    name = 'Cloudflare Status'
+	name = 'Cloudflare Status'
 
 	private readonly schema = z.object({
 		status: z.object({
 			description: z.string(),
-			indicator: z.enum(["none", "minor", "major", "critical"]),
+			indicator: z.enum(['none', 'minor', 'major', 'critical']),
 		}),
 	})
 
-	private indicator: z.infer<typeof this.schema>["status"]["indicator"] = "none"
-	private description: z.infer<typeof this.schema>["status"]["description"] = ""
+	private indicator: z.infer<typeof this.schema>['status']['indicator'] = 'none'
+	private description: z.infer<typeof this.schema>['status']['description'] = ''
 
 	install() {
 		setInterval(this.updateStatus, 10 * 60 * 1000)
@@ -27,7 +27,7 @@ export default class CloudflareStatus extends Module {
 
 	async updateStatus() {
 		try {
-			const response = await fetch("https://www.cloudflarestatus.com/api/v2/status.json")
+			const response = await fetch('https://www.cloudflarestatus.com/api/v2/status.json')
 			const data = await response.json()
 
 			const result = this.schema.safeParse(data)
@@ -36,17 +36,17 @@ export default class CloudflareStatus extends Module {
 				this.indicator = result.data.status.indicator
 				this.description = result.data.status.description
 			} else {
-				this.log("Validation failed.")
+				this.log('Validation failed.')
 				console.warn(result.error)
 			}
 		} catch (error) {
-			this.log("Failed to fetch status from Cloudflare.")
+			this.log('Failed to fetch status from Cloudflare.')
 			console.warn(error)
 		}
 	}
 
 	mentionHook(msg: Message) {
-		if (msg.content.toLowerCase().includes("cloudflare")) {
+		if (msg.content.toLowerCase().includes('cloudflare')) {
 			msg.channel.send(`いまのCloudflareのステータスだよ！\n\nじょうきょう: ${this.indicator}\nせつめい: ${this.description}\nhttps://www.cloudflarestatus.com`)
 			return true
 		} else {
