@@ -34,6 +34,7 @@ const commands: readonly Command<string[] | RegExp>[] = [
 		await message.channel.send('お前が死ね！！！')
 	}),
 
+
 ]
 
 export default commands
