@@ -1,6 +1,8 @@
 import { Message, Client } from 'discord.js'
 import dotenv from 'dotenv'
 import commands from './commands'
+import Modules from './modules'
+import Module from './utils/module'
 
 dotenv.config()
 
@@ -10,8 +12,17 @@ const client = new Client({
 	intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES'],
 })
 
+let modules: Module[]
+
 client.once('ready', () => {
 	console.log('Ready!')
+
+	modules = Modules.map(Module => {
+		const module = new Module(client)
+		module.install()
+
+		return module
+	})
 })
 
 client.on('messageCreate', async (message: Message) => {
@@ -37,6 +48,7 @@ client.on('messageCreate', async (message: Message) => {
 	})
 
 	command?.execute(message, command.match)
+	modules?.forEach(module => module.mentionHook(message))
 })
 
 client.login(process.env.TOKEN)
