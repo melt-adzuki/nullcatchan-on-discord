@@ -36,10 +36,10 @@ client.on('messageCreate', async (message: Message) => {
 		.trim()
 
 	const command = commands.find(command => {
-		if (Array.isArray(command.content)) return command.content.some(content => context === content)
+		if (Array.isArray(command.keyword)) return command.keyword.some(keyword => context === keyword)
 
-		else if (command.content instanceof RegExp) {
-			const match = context.match(command.content)
+		else if (command.keyword instanceof RegExp) {
+			const match = context.match(command.keyword)
 			if (!match) return false
 
 			command.match = match
