@@ -12,7 +12,7 @@ const client = new Client({
 	intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES'],
 })
 
-let modules: Module[]
+let modules: Module[] | null
 
 client.once('ready', () => {
 	console.log('Ready!')
@@ -23,6 +23,8 @@ client.once('ready', () => {
 
 		return module
 	})
+
+	Object.freeze(modules)
 })
 
 client.on('messageCreate', async (message: Message) => {
