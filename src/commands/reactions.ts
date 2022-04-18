@@ -4,7 +4,7 @@ import { Message } from 'discord.js'
 const reactionList: [string[] | RegExp, string][] = [
 	[
 		['ping'],
-		'<:bibibi_nullcat:951930336231702548>'
+		'<:bibibi_nullcatchan:964103062102867980>'
 	],
 	[
 		['help'],
